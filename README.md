@@ -35,7 +35,7 @@ limitations under the License.
 [crate-link]: https://crates.io/crates/neobirth
 [docs-image]: https://docs.rs/neobirth/badge.svg
 [docs-link]: https://docs.rs/neobirth/
-[build-image]: https://secure.travis-ci.org/NeoBirth/NeoBirth.rs.svg?branch=master
+[build-image]: https://secure.travis-ci.org/NeoBirth/NeoBirth.svg?branch=master
 [build-link]: https://travis-ci.org/NeoBirth/NeoBirth
 [license-image]: https://img.shields.io/badge/license-Apache2.0-blue.svg
 [license-link]: https://github.com/NeoBirth/NeoBirth/blob/master/LICENSE
