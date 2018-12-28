@@ -1,5 +1,7 @@
 # ![NeoBirth][logo]
 
+[![Join the chat at https://gitter.im/NeoBirth/NeoBirth](https://badges.gitter.im/NeoBirth/NeoBirth.svg)](https://gitter.im/NeoBirth/NeoBirth?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge&utm_content=badge)
+
 [![crate][crate-image]][crate-link]
 [![Docs][docs-image]][docs-link]
 [![Build Status][build-image]][build-link]
