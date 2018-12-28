@@ -1,13 +1,12 @@
 # ![NeoBirth][logo]
 
-[![Join the chat at https://gitter.im/NeoBirth/NeoBirth](https://badges.gitter.im/NeoBirth/NeoBirth.svg)](https://gitter.im/NeoBirth/NeoBirth?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge&utm_content=badge)
-
-[![crate][crate-image]][crate-link]
+[![Crate][crate-image]][crate-link]
 [![Docs][docs-image]][docs-link]
 [![Build Status][build-image]][build-link]
 [![Apache 2.0 licensed][license-image]][license-link]
+[![Gitter Chat][gitter-image]][gitter-link]
 
-Acid house synthesizer powered by ZenGarden and PureData
+Acid house synthesizer powered by [ZenGarden] and [PureData].
 
 ## Code of Conduct
 
@@ -40,5 +39,9 @@ limitations under the License.
 [build-link]: https://travis-ci.org/NeoBirth/NeoBirth
 [license-image]: https://img.shields.io/badge/license-Apache2.0-blue.svg
 [license-link]: https://github.com/NeoBirth/NeoBirth/blob/master/LICENSE
+[gitter-image]: https://badges.gitter.im/NeoBirth/NeoBirth.svg
+[gitter-link]: https://gitter.im/NeoBirth/NeoBirth
+[ZenGarden]: https://github.com/mhroth/ZenGarden
+[PureData]: https://puredata.info/
 [cc]: https://contributor-covenant.org
 [CODE_OF_CONDUCT.md]: https://github.com/NeoBirth/NeoBirth/blob/master/CODE_OF_CONDUCT.md
