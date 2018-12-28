@@ -11,3 +11,6 @@ edition     = "2018"
 
 [dependencies]
 zengarden = "0"
+
+[badges]
+travis-ci = { repository = "NeoBirth/NeoBirth" }
