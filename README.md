@@ -29,11 +29,11 @@ WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 See the License for the specific language governing permissions and
 limitations under the License.
 
-[logo]: https://github.com/NeoBirth/NeoBirth/blob/master/logo.png?raw=true
-[crate-image]: https://img.shields.io/crates/v/NeoBirth.svg
-[crate-link]: https://crates.io/crates/NeoBirth
-[docs-image]: https://docs.rs/NeoBirth/badge.svg
-[docs-link]: https://docs.rs/NeoBirth/
+[logo]: https://raw.githubusercontent.com/NeoBirth/NeoBirth/master/logo.png
+[crate-image]: https://img.shields.io/crates/v/neobirth.svg
+[crate-link]: https://crates.io/crates/neobirth
+[docs-image]: https://docs.rs/neobirth/badge.svg
+[docs-link]: https://docs.rs/neobirth/
 [build-image]: https://secure.travis-ci.org/NeoBirth/NeoBirth.rs.svg?branch=master
 [build-link]: https://travis-ci.org/NeoBirth/NeoBirth
 [license-image]: https://img.shields.io/badge/license-Apache2.0-blue.svg
