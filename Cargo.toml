@@ -4,7 +4,7 @@ description = """
               Pure Data-powered acid house music synthesizer for the
               Adafruit NeoTrellis M4 Express
               """
-version     = "0.1.0"
+version     = "0.1.1"
 authors     = ["Tony Arcieri <bascule@gmail.com>"]
 license     = "Apache-2.0"
 homepage    = "https://neobirth.org"
@@ -19,7 +19,7 @@ panic-halt = "0.2"
 purezen = { version = "0.0.2", default-features = false }
 trellis_m4 = "0.1"
 smart-leds = "0.1"
-ws2812-timer-delay = { git = "https://github.com/smart-leds-rs/ws2812-timer-delay-rs" }
+ws2812-timer-delay = "0.1"
 
 [badges]
 travis-ci = { repository = "NeoBirth/NeoBirth" }
