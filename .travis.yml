@@ -9,12 +9,17 @@ branches:
 
 install:
   - rustup component add rustfmt
-  - rustup component add clippy-preview
+  - rustup component add clippy
+  - rustup target add thumbv7em-none-eabihf
 
-script:
-  - cargo fmt --all -- --check
-  - cargo clippy --all
-  - cargo build --release
-  - cargo test
-  - cargo test --release
-  - cargo doc --no-deps
+matrix:
+  include:
+    - name: rustfmt
+      script:
+        - cargo fmt -- --check
+    - name: clippy
+      script:
+        - cargo clippy
+    - name: build
+      script:
+        - cargo build --release

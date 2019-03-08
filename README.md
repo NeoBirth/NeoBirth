@@ -6,7 +6,51 @@
 [![Apache 2.0 licensed][license-image]][license-link]
 [![Gitter Chat][gitter-image]][gitter-link]
 
-Acid house synthesizer powered by [ZenGarden] and [PureData].
+Acid house music program for the [Adafruit NeoTrellis M4], powered by the
+[PureZen] music synthesis engine (a [Pure Data] engine targeting embedded
+Rust devices).
+
+Inspired by [Propellerhead ReBirth]. 
+
+<img width="50%" src="https://cdn-learn.adafruit.com/guides/cropped_images/000/002/254/medium640/3963_top_lit_ORIG_2018_10.jpg?1541023640">
+
+## Status
+
+The current code produces a working executable which can be loaded onto a
+NeoTrellis M4 device, however no functionality is yet in place (unless you
+like blinking LEDs).
+
+## Requirements
+
+- NeoTrellis M4 Express device
+- Rustup and Rust 1.31+: https://rustup.rs/ 
+- `rustup target add thumbv7em-none-eabihf`
+- [GNU ARM Embedded Toolchain]
+- [BOSSA] (flash programming utility for Atmel's SAM microcntrollers)
+
+## Compiling
+
+```
+$ CARGO_INCREMENTAL=0 cargo build --release
+$ cd target/thumbv7em-none-eabihf/release/
+$ arm-none-eabi-objcopy -O binary neobirth neobirth.bin
+```
+
+## Flashing the NeoTrellis M4
+
+Press the `RESET` button on the back of the NeoTrellis M4 twice in rapid
+succession. The LED on the back will turn *green*. 
+
+Then run:
+
+```
+$ bossac -e -w -v -b -R -o 0x4000 --port=/dev/<your platform dev> neobirth.bin
+```
+
+Note that the `--port` flag for `bossac` varies by OS:
+
+- Linux: `/dev/ttyACM0`
+- macOS: `/dev/tty.usbmodemNNNNNN` (try `ls /dev/tty.usbmodem*`)
 
 ## Code of Conduct
 
@@ -41,7 +85,11 @@ limitations under the License.
 [license-link]: https://github.com/NeoBirth/NeoBirth/blob/master/LICENSE
 [gitter-image]: https://badges.gitter.im/NeoBirth/NeoBirth.svg
 [gitter-link]: https://gitter.im/NeoBirth/NeoBirth
-[ZenGarden]: https://github.com/mhroth/ZenGarden
-[PureData]: https://puredata.info/
+[Adafruit NeoTrellis M4]: https://learn.adafruit.com/adafruit-neotrellis-m4
+[PureZen]: https://github.com/NeoBirth/PureZen
+[Pure Data]: https://puredata.info/
+[Propellerhead ReBirth]: https://en.wikipedia.org/wiki/ReBirth_RB-338
+[GNU ARM Embedded Toolchain]: https://developer.arm.com/open-source/gnu-toolchain/gnu-rm/downloads
+[BOSSA]: http://www.shumatech.com/web/products/bossa
 [cc]: https://contributor-covenant.org
 [CODE_OF_CONDUCT.md]: https://github.com/NeoBirth/NeoBirth/blob/master/CODE_OF_CONDUCT.md
