@@ -1,16 +1,37 @@
 [package]
 name        = "neobirth"
-description = "Acid house synthesizer powered by ZenGarden and PureData"
+description = """
+              Pure Data-powered acid house music synthesizer for the
+              Adafruit NeoTrellis M4 Express
+              """
 version     = "0.1.0"
 authors     = ["Tony Arcieri <bascule@gmail.com>"]
 license     = "Apache-2.0"
 homepage    = "https://neobirth.org"
-repository  = "https://github.com/NeoBirth/ZenGarden.rs"
+repository  = "https://github.com/NeoBirth/NeoBirth"
 readme      = "README.md"
 edition     = "2018"
+categories  = ["multimedia::audio", "no-std"]
+keywords    = ["303", "audio", "music", "synthesis", "puredata"]
 
 [dependencies]
-zengarden = "0"
+panic-halt = "0.2"
+purezen = { version = "0.0.2", default-features = false }
+trellis_m4 = "0.1"
+smart-leds = "0.1"
+ws2812-timer-delay = { git = "https://github.com/smart-leds-rs/ws2812-timer-delay-rs" }
 
 [badges]
 travis-ci = { repository = "NeoBirth/NeoBirth" }
+
+[profile.dev]
+incremental = false
+codegen-units = 1
+debug = true
+lto = false
+
+[profile.release]
+incremental = false
+debug = false
+lto = true
+opt-level = "s"
