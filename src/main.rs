@@ -20,12 +20,10 @@
 
 extern crate panic_halt;
 extern crate trellis_m4 as hal;
-extern crate ws2812_timer_delay as ws2812;
+extern crate ws2812_nop_samd51 as ws2812;
 
-use hal::{
-    clock::GenericClockController, delay::Delay, entry, prelude::*, timer::TimerCounter,
-    CorePeripherals, Peripherals,
-};
+use hal::prelude::*;
+use hal::{clock::GenericClockController, delay::Delay, entry, CorePeripherals, Peripherals};
 use smart_leds::{brightness, Color, SmartLedsWrite};
 
 /// Total number of LEDs on the NeoTrellis M4
@@ -46,20 +44,15 @@ fn main() -> ! {
     );
 
     let mut pins = hal::Pins::new(peripherals.PORT);
-    let gclk0 = clocks.gclk0();
-    let timer_clock = clocks.tc2_tc3(&gclk0).unwrap();
-    let mut timer = TimerCounter::tc3_(&timer_clock, peripherals.TC3, &mut peripherals.MCLK);
-    timer.start(3_000_000u32.hz());
-
-    let mut neopixel_pin = pins.neopixel.into_push_pull_output(&mut pins.port);
-    let mut neopixel = ws2812::Ws2812::new(timer, &mut neopixel_pin);
     let mut delay = Delay::new(core_peripherals.SYST, &mut clocks);
+    let neopixel_pin = pins.neopixel.into_push_pull_output(&mut pins.port);
+    let mut neopixel = ws2812::Ws2812::new(neopixel_pin);
     let mut values = [Color::default(); NUM_LEDS];
 
     loop {
         for j in 0..(256 * 5) {
             for (i, value) in values.iter_mut().enumerate() {
-                *value = wheel((((i * 256) as u16 / NUM_LEDS as u16 + j as u16) & 255) as u8);
+                *value = wheel((((i * 256) as u16 / NUM_LEDS as u16 + j) & 255) as u8);
             }
 
             neopixel
