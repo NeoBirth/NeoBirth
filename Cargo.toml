@@ -19,7 +19,7 @@ panic-halt = "0.2"
 purezen = { version = "0.0.2", default-features = false }
 trellis_m4 = "0.1"
 smart-leds = "0.1"
-ws2812-timer-delay = "0.1"
+ws2812-nop-samd51 = { git = "https://github.com/smart-leds-rs/ws2812-nop-samd51.git" }
 
 [badges]
 travis-ci = { repository = "NeoBirth/NeoBirth" }
@@ -31,7 +31,6 @@ debug = true
 lto = false
 
 [profile.release]
-incremental = false
-debug = false
-lto = true
+debug = true
+lto = false
 opt-level = "s"
