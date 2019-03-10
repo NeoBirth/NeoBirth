@@ -1,6 +1,5 @@
 # ![NeoBirth][logo]
 
-[![Crate][crate-image]][crate-link]
 [![Build Status][build-image]][build-link]
 [![Apache 2.0 licensed][license-image]][license-link]
 [![Gitter Chat][gitter-image]][gitter-link]
@@ -74,8 +73,6 @@ See the License for the specific language governing permissions and
 limitations under the License.
 
 [logo]: https://raw.githubusercontent.com/NeoBirth/NeoBirth/master/logo.png
-[crate-image]: https://img.shields.io/crates/v/neobirth.svg
-[crate-link]: https://crates.io/crates/neobirth
 [build-image]: https://secure.travis-ci.org/NeoBirth/NeoBirth.svg?branch=master
 [build-link]: https://travis-ci.org/NeoBirth/NeoBirth
 [license-image]: https://img.shields.io/badge/license-Apache2.0-blue.svg
