@@ -24,7 +24,7 @@ extern crate ws2812_nop_samd51 as ws2812;
 
 use hal::prelude::*;
 use hal::{clock::GenericClockController, delay::Delay, entry, CorePeripherals, Peripherals};
-use smart_leds::{brightness, Color, SmartLedsWrite};
+use smart_leds::{brightness, colors, Color, SmartLedsWrite};
 
 /// Total number of LEDs on the NeoTrellis M4
 const NUM_LEDS: usize = 32;
@@ -43,20 +43,52 @@ fn main() -> ! {
         &mut peripherals.NVMCTRL,
     );
 
-    let mut pins = hal::Pins::new(peripherals.PORT);
     let mut delay = Delay::new(core_peripherals.SYST, &mut clocks);
-    let neopixel_pin = pins.neopixel.into_push_pull_output(&mut pins.port);
+
+    let hal::pins::Sets {
+        neopixel,
+        keypad: keypad_pins,
+        mut port,
+        ..
+    } = hal::Pins::new(peripherals.PORT).split();
+
+    // neopixels
+    let neopixel_pin = neopixel.into_push_pull_output(&mut port);
     let mut neopixel = ws2812::Ws2812::new(neopixel_pin);
-    let mut values = [Color::default(); NUM_LEDS];
+    let mut color_values = [Color::default(); NUM_LEDS];
+
+    // keypad
+    let keypad = hal::Keypad::new(keypad_pins, &mut port);
+    let keypad_inputs = keypad.decompose();
+    let mut keypad_state = [false; NUM_LEDS];
+    let mut toggle_values = [false; NUM_LEDS];
 
     loop {
         for j in 0..(256 * 5) {
-            for (i, value) in values.iter_mut().enumerate() {
-                *value = wheel((((i * 256) as u16 / NUM_LEDS as u16 + j) & 255) as u8);
+            for (i, value) in color_values.iter_mut().enumerate() {
+                let keypad_column = i % 8;
+                let keypad_row = i / 8;
+                let keypad_button = &keypad_inputs[keypad_row][keypad_column];
+
+                if keypad_button.is_high() {
+                    keypad_state[i] = true;
+                } else {
+                    // toggle event
+                    if keypad_state[i] {
+                        keypad_state[i] = false;
+                        toggle_values[i] = !toggle_values[i];
+                    }
+                }
+
+                *value = if toggle_values[i] {
+                    wheel((((i * 256) as u16 / NUM_LEDS as u16 + j) & 255) as u8)
+                } else {
+                    colors::DEEP_SKY_BLUE
+                };
             }
 
             neopixel
-                .write(brightness(values.iter().cloned(), 32))
+                .write(brightness(color_values.iter().cloned(), 32))
                 .unwrap();
 
             delay.delay_ms(5u8);

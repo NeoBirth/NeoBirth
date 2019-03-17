@@ -17,7 +17,7 @@ keywords    = ["303", "audio", "music", "synthesis", "puredata"]
 [dependencies]
 panic-halt = "0.2"
 purezen = { version = "0.0.2", default-features = false }
-trellis_m4 = "0.1"
+trellis_m4 = { version = "0.1.2", features = ["keypad-unproven"] }
 smart-leds = "0.1"
 ws2812-nop-samd51 = { git = "https://github.com/smart-leds-rs/ws2812-nop-samd51.git" }
 
