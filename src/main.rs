@@ -18,13 +18,17 @@
     unused_qualifications
 )]
 
-extern crate panic_halt;
-extern crate trellis_m4 as hal;
-extern crate ws2812_nop_samd51 as ws2812;
+mod colors;
 
+#[allow(unused_imports)]
+use panic_halt;
+use trellis_m4 as hal;
+use ws2812_nop_samd51 as ws2812;
+
+use hal::adxl343::accelerometer;
 use hal::prelude::*;
 use hal::{clock::GenericClockController, delay::Delay, entry, CorePeripherals, Peripherals};
-use smart_leds::{brightness, Color, SmartLedsWrite};
+use smart_leds::{Color, SmartLedsWrite};
 
 /// Total number of LEDs on the NeoTrellis M4
 const NUM_LEDS: usize = 32;
@@ -43,37 +47,57 @@ fn main() -> ! {
         &mut peripherals.NVMCTRL,
     );
 
-    let mut pins = hal::Pins::new(peripherals.PORT);
+    let mut pins = hal::Pins::new(peripherals.PORT).split();
     let mut delay = Delay::new(core_peripherals.SYST, &mut clocks);
+
+    // neopixels
     let neopixel_pin = pins.neopixel.into_push_pull_output(&mut pins.port);
     let mut neopixel = ws2812::Ws2812::new(neopixel_pin);
-    let mut values = [Color::default(); NUM_LEDS];
+    let mut pixels = [Color::default(); NUM_LEDS];
+
+    for pixel in pixels.iter_mut().take(8) {
+        *pixel = colors::WHITE;
+    }
+
+    for pixel in pixels.iter_mut().take(16).skip(8) {
+        *pixel = colors::YELLOW;
+    }
+
+    for pixel in pixels.iter_mut().take(24).skip(16) {
+        *pixel = colors::ORANGE;
+    }
+
+    for pixel in pixels.iter_mut().skip(24) {
+        *pixel = colors::RED;
+    }
+
+    // accelerometer
+    let adxl343 = pins
+        .accel
+        .open(
+            &mut clocks,
+            peripherals.SERCOM2,
+            &mut peripherals.MCLK,
+            &mut pins.port,
+        )
+        .unwrap();
+
+    let mut accel_tracker = adxl343.try_into_tracker().unwrap();
+    let mut reversed = false;
 
     loop {
-        for j in 0..(256 * 5) {
-            for (i, value) in values.iter_mut().enumerate() {
-                *value = wheel((((i * 256) as u16 / NUM_LEDS as u16 + j) & 255) as u8);
-            }
-
-            neopixel
-                .write(brightness(values.iter().cloned(), 32))
-                .unwrap();
-
-            delay.delay_ms(5u8);
+        match accel_tracker.orientation().unwrap() {
+            accelerometer::Orientation::LandscapeUp => reversed = false,
+            accelerometer::Orientation::LandscapeDown => reversed = true,
+            _ => (),
         }
-    }
-}
 
-/// Color wheel
-fn wheel(mut wheel_pos: u8) -> Color {
-    wheel_pos = 255 - wheel_pos;
-    if wheel_pos < 85 {
-        return (255 - wheel_pos * 3, 0, wheel_pos * 3).into();
+        if reversed {
+            neopixel.write(pixels.iter().rev().cloned()).unwrap();
+        } else {
+            neopixel.write(pixels.iter().cloned()).unwrap();
+        }
+
+        delay.delay_ms(1u8);
     }
-    if wheel_pos < 170 {
-        wheel_pos -= 85;
-        return (0, wheel_pos * 3, 255 - wheel_pos * 3).into();
-    }
-    wheel_pos -= 170;
-    (wheel_pos * 3, 255 - wheel_pos * 3, 0).into()
 }
