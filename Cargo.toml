@@ -11,13 +11,13 @@ homepage    = "https://neobirth.org"
 repository  = "https://github.com/NeoBirth/NeoBirth"
 readme      = "README.md"
 edition     = "2018"
-categories  = ["multimedia::audio", "no-std"]
+categories  = ["embedded", "multimedia::audio", "no-std"]
 keywords    = ["303", "audio", "music", "synthesis", "puredata"]
 
 [dependencies]
 panic-halt = "0.2"
 purezen = { version = "0.0.2", default-features = false }
-trellis_m4 = "0.1"
+trellis_m4 = { version = "0.1", features = ["adxl343", "keypad-unproven"] }
 smart-leds = "0.1"
 ws2812-nop-samd51 = { git = "https://github.com/smart-leds-rs/ws2812-nop-samd51.git" }
 
@@ -34,3 +34,6 @@ lto = false
 debug = true
 lto = false
 opt-level = "s"
+
+[patch.crates-io]
+trellis_m4 = { git = "https://github.com/atsamd-rs/atsamd" }
